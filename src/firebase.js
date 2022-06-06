@@ -1,5 +1,6 @@
-import { initializeApp } from "firebase/app";
-import { getAuth,GoogleAuthProvider } from "firebase/auth";
+import firebase from "firebase/compat/app";
+import "firebase/compat/auth";
+
 // firebase config
 const config = {
     apiKey: "AIzaSyDBGDeniQ3hKFoXkKv5-lSXCNfIJxYM-H4",
@@ -10,8 +11,9 @@ const config = {
     appId: "1:500745066044:web:bd501cd92b88781db69539"
 };
 // initialize firebase app
-const app = initializeApp(config, "React Ecommerce");
+//const app = initializeApp(config, "React Ecommerce");
+firebase.initializeApp(config);
 // export
 // export default firebase;
-export const auth = getAuth(app);
-export const googleAuthProvider = new GoogleAuthProvider();
+export const auth = firebase.auth()
+export const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
