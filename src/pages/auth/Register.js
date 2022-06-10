@@ -13,7 +13,7 @@ export const Register = ({history}) => {
     if(user && user.token){
       history.push("/login");
     } 
-  },[user]);
+  },[user,history]);
 
   const onSubmit = async (e) => {
     e.preventDefault();
