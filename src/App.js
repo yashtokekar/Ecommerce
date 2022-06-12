@@ -6,17 +6,20 @@ import { Register } from './pages/auth/Register';
 import { Login } from './pages/auth/Login';
 import { Home } from './pages/Home';
 import { Header } from './components/nav/Header';
+import { ForgotPassword } from './pages/auth/ForgotPassword';
 import { RegisterComplete } from './pages/auth/RegisterComplete';
+import { AdminRoute } from './components/routes/AdminRoute';
+import { UserRoute } from './components/routes/UserRoute';
 import { History } from './pages/user/History';
 import { Password } from './pages/user/Password';
 import { Wishlist } from './pages/user/Wishlist';
 import { AdminDashboard } from './pages/admin/AdminDashboard';
-import { AdminRoute } from './components/routes/AdminRoute';
-import { UserRoute } from './components/routes/UserRoute';
+import { CategoryCreate } from './pages/admin/category/CategoryCreate';
+
 
 import { auth } from './firebase';
 import { useDispatch } from 'react-redux';
-import { ForgotPassword } from './pages/auth/ForgotPassword';
+
 import { currentUser } from './functions/auth';
 
 const App = () => {
@@ -64,6 +67,7 @@ useEffect(() => {
         <UserRoute exact path="/user/password" component={Password} />
         <UserRoute exact path="/user/wishlist" component={Wishlist} />
         <AdminRoute exact path="/admin/dashboard" component={AdminDashboard} />
+        <AdminRoute exact path="/admin/category" component={CategoryCreate} />
       </Switch>
     </>
   );
