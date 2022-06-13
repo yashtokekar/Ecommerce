@@ -2,9 +2,11 @@ import React, { useEffect, useState } from "react";
 import { AdminNav } from "../../../components/nav/AdminNav";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
-import { createCategory, getCategories, removeCategory} from '../../../functions/category'
+import { createCategory, getCategories, removeCategory} from '../../../functions/category';
+import { CategoryForm } from '../../../components/forms/CategoryForm'
 import { Link } from "react-router-dom";
 import { DeleteOutlined, EditOutlined } from "@ant-design/icons";
+import { LocalSearch } from "../../../components/forms/LocalSearch";
 
 export const CategoryCreate = () => {
     const {user} = useSelector((state) => ({...state}));
@@ -12,6 +14,9 @@ export const CategoryCreate = () => {
     const [ name, setName ] = useState('');
     const [ loading, setLoading ] = useState(false);
     const [ categories, setCategories ] = useState([]);
+
+    // searching/filtering
+    const[keyword, setKeyword] = useState("");
 
     useEffect(() => {
         loadCategories();
@@ -55,17 +60,10 @@ export const CategoryCreate = () => {
         }
     }
 
-    const categoryForm = () => (
-        <form onSubmit={handleSubmit}>
-            <div className="form-group">
-                <label>Name</label>
-                <input type="text" className="form-control" onChange={e => setName(e.target.value)} value={name} autoFocus required/>
-                <br />
-                <button className="btn btn-outline-primary" disabled={loading}>Save</button>
-            </div>
+    
 
-        </form>
-    )
+    const searched = (keyword) => (c) => c.name.toLowerCase().includes(keyword);
+
     return (
         <div className="container-fluid">
             <div className="row">
@@ -74,9 +72,11 @@ export const CategoryCreate = () => {
                 </div>
                 <div className="col">
                     <h4>Create category</h4>
-                    {categoryForm()}
-                    <hr />
-                    {categories.map((c) => (
+                    <CategoryForm handleSubmit={handleSubmit} name={name} setName= {setName}/>
+
+                    <LocalSearch keyword={keyword} setKeyword={setKeyword} />
+                    
+                    {categories.filter(searched(keyword)).map((c) => (
                         <div className="alert alert-primary" key={c._id}>
                             {c.name} 
                             <span 

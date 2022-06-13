@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import { AdminNav } from "../../../components/nav/AdminNav";
 import { toast } from "react-toastify";
 import { useSelector } from "react-redux";
-import { getCategory, updateCategory} from '../../../functions/category'
+import { getCategory, updateCategory} from '../../../functions/category';
+import { CategoryForm } from '../../../components/forms/CategoryForm';
+
 
 
 export const CategoryUpdate = ({history,match}) => {
@@ -27,7 +29,7 @@ export const CategoryUpdate = ({history,match}) => {
         .then(res => {
             setLoading(false);
             setName("");
-            toast.success(`${res.data.name} is created`);
+            toast.success(`${res.data.name} is updated`);
             history.push("/admin/category")
         }).catch(err => {
             setLoading(false);
@@ -36,17 +38,6 @@ export const CategoryUpdate = ({history,match}) => {
     }
 
 
-    const categoryForm = () => (
-        <form onSubmit={handleSubmit}>
-            <div className="form-group">
-                <label>Name</label>
-                <input type="text" className="form-control" onChange={e => setName(e.target.value)} value={name} autoFocus required/>
-                <br />
-                <button className="btn btn-outline-primary" disabled={loading}>Save</button>
-            </div>
-
-        </form>
-    )
     return (
         <div className="container-fluid">
             <div className="row">
@@ -55,7 +46,7 @@ export const CategoryUpdate = ({history,match}) => {
                 </div>
                 <div className="col">
                     <h4>Update category</h4>
-                    {categoryForm()}
+                    <CategoryForm handleSubmit={handleSubmit} name={name} setName= {setName}/>
                     <hr />
                 </div>
             </div>
