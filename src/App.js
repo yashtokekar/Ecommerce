@@ -17,12 +17,14 @@ import { AdminDashboard } from './pages/admin/AdminDashboard';
 import { CategoryCreate } from './pages/admin/category/CategoryCreate';
 import { CategoryUpdate } from './pages/admin/category/CategoryUpdate';
 import { SubCreate } from './pages/admin/sub/SubCreate';
-
+import { SubUpdate } from './pages/admin/sub/SubUpdate';
+import { ProductCreate } from './pages/admin/product/ProductCreate';
 
 import { auth } from './firebase';
 import { useDispatch } from 'react-redux';
 
 import { currentUser } from './functions/auth';
+
 
 
 const App = () => {
@@ -73,6 +75,8 @@ useEffect(() => {
         <AdminRoute exact path="/admin/category" component={CategoryCreate} />
         <AdminRoute exact path="/admin/category/:slug" component={CategoryUpdate} />
         <AdminRoute exact path="/admin/sub" component={SubCreate} />
+        <AdminRoute exact path="/admin/sub/:slug" component={SubUpdate} />
+        <AdminRoute exact path="/admin/product" component={ProductCreate} />
       </Switch>
     </>
   );
