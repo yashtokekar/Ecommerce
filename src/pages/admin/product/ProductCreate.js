@@ -5,6 +5,8 @@ import { useSelector } from "react-redux";
 import { createProduct } from '../../../functions/product';
 import { ProductCreateForm } from "../../../components/forms/ProductCreateForm";
 import { getCategories, getCategorySubs } from "../../../functions/category";
+import { FileUpload } from "../../../components/forms/FileUpload";
+import { LoadingOutlined } from '@ant-design/icons'
 
 const initialState = {
     title: '',
@@ -28,6 +30,7 @@ export const ProductCreate = () => {
     const {user} = useSelector((state) => ({...state}));
     const [subOptions, setSubOptions] = useState([]);
     const [showSub, setShowSub] = useState(false);
+    const [loading, setLoading] = useState(false);
     
 
     useEffect(() => {
@@ -57,12 +60,13 @@ export const ProductCreate = () => {
 
     const handleCategoryChange = (e) => {
         e.preventDefault();
-        console.log("Clicked Category", e.target.value);
-        setValues({...values, category: e.target.value });
+        // console.log("Clicked Category", e.target.value);
+        setValues({...values, subs: [], category: e.target.value });
         getCategorySubs(e.target.value)
         .then((res) => {
             setSubOptions(res.data);
         });
+        setShowSub(true);
     }
     return (
         <div className="container-fluid">
@@ -72,11 +76,18 @@ export const ProductCreate = () => {
                 </div>
 
                 <div className="col-md-10">
-                    <h4>Create Product</h4>
+                    {loading ? <LoadingOutlined className="text-danger h1"/> : <h4>Create Product</h4>}
                     <hr />
 
+                    {JSON.stringify(values.images)}
+
+                    <div className="p-3">
+                        <FileUpload values={values} setValues={setValues} setLoading={setLoading} />
+                    </div>
+
                     <ProductCreateForm 
-                      values={values} 
+                      values={values}
+                      setValues={setValues} 
                       handleSubmit={handleSubmit} 
                       handleChange={handleChange} 
                       handleCategoryChange={handleCategoryChange} 
