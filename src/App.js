@@ -25,6 +25,7 @@ import { auth } from './firebase';
 import { useDispatch } from 'react-redux';
 
 import { currentUser } from './functions/auth';
+import { ProductUpdate } from './pages/admin/product/ProductUpdate';
 
 
 
@@ -79,6 +80,7 @@ useEffect(() => {
         <AdminRoute exact path="/admin/sub/:slug" component={SubUpdate} />
         <AdminRoute exact path="/admin/product" component={ProductCreate} />
         <AdminRoute exact path="/admin/products" component={AllProducts} />
+        <AdminRoute exact path="/admin/product/:slug" component={ProductUpdate} />
       </Switch>
     </>
   );
