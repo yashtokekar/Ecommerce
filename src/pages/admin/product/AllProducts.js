@@ -54,7 +54,7 @@ export const AllProducts = () => {
                 <div className="col">
                     {loading ? (<LoadingOutlined className="h1" />) : (<h4 className="col-md-2">All Products</h4>)}
                     <div className="row">
-                        {products.map((product) => <div className="col-md-3 pb-3 " key={product._id}><AdminProductCard product={product} handleRemove={handleRemove}/></div>)}
+                        {products.map((product) => <div style={{width: 400}} className="col-md-3 pb-3 " key={product._id}><AdminProductCard product={product} handleRemove={handleRemove}/></div>)}
                     </div>
                 </div>
                 
