@@ -35,7 +35,7 @@ export const Header = () => {
     
 
     return (
-        <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal">
+        <Menu onClick={handleClick} selectedKeys={[current]} mode="horizontal" className="navbar-fixed-top">
         <Menu.Item key="home" icon={<AppstoreOutlined />}>
           <Link to="/">Home</Link>
         </Menu.Item>
