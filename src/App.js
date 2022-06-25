@@ -5,6 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { Register } from './pages/auth/Register';
 import { Login } from './pages/auth/Login';
 import { Home } from './pages/Home';
+import { Product } from './pages/Product';
 import { Header } from './components/nav/Header';
 import { ForgotPassword } from './pages/auth/ForgotPassword';
 import { RegisterComplete } from './pages/auth/RegisterComplete';
@@ -66,6 +67,7 @@ useEffect(() => {
       <ToastContainer />
       <Switch>
         <Route exact path="/" component={Home} />
+        <Route exact path="/product/:slug" component={Product} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/register" component={Register} />
         <Route exact path="/register/complete" component={RegisterComplete} />
