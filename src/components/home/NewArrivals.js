@@ -10,7 +10,7 @@ export const NewArrivals = () => {
   const [page, setPage] = useState(1);
   const [productsCount, setProductsCount] = useState(0);
 
-  useEffect(() =>{
+  useEffect(() => {
     loadAllProducts();
   }, [page]);
 
@@ -20,36 +20,36 @@ export const NewArrivals = () => {
 
   const loadAllProducts = () => {
     setLoading(true);
-    getProducts('createdAt', 'desc', page)
-    .then(res => {
+    getProducts('createdAt', 'desc', page).then((res) => {
       setProducts(res.data);
     });
     setLoading(false);
   };
 
   return (
-    <> 
-    <div className="container">
-      {loading ? <LoadingCard count={3} /> :
-        (<div className="row">
+    <>
+      <div className='container'>
+        {loading ? (
+          <LoadingCard count={3} />
+        ) : (
+          <div className='row ml-5'>
             {products.map((product) => (
-            <div key={product._id} className="col-md-4">
-               <ProductCard product={product}/>
-             </div>
-          ))}
-         </div>)
-        }
-    </div>
-    <div className="row">
-        <nav className="col-md-4 offset-md-4 text-center pt-5 p-3">
-            <Pagination
-              current={page} 
-              total={Math.round((productsCount / 3) * 10)}
-              onChange={(value) => setPage(value)} 
-            />
+              <div key={product._id} className='col-md-3 ml-5 mr-2'>
+                <ProductCard product={product} />
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+      <div className='row'>
+        <nav className='col-md-4 offset-md-4 text-center pt-5 p-3'>
+          <Pagination
+            current={page}
+            total={Math.round((productsCount / 3) * 10)}
+            onChange={(value) => setPage(value)}
+          />
         </nav>
-    </div>
+      </div>
     </>
-      
   );
 };
