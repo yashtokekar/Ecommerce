@@ -55,25 +55,26 @@ export const Product = ({ match }) => {
       <br />
 
       <div className='row'>
-        <div className='col text-center pt-5 pb-3'>
+        <div className='col text-center pt-5 pb-1'>
           <hr />
           <h4>Related Products</h4>
           <hr />
         </div>
       </div>
-      {/* <div className='container-fluid'> */}
-      <div className='row'>
-        {related.length > 0 ? (
-          related.map((r) => (
-            <div key={r._id} className='col-md-3 mr-2 mb-3'>
-              <ProductCard product={r} />
-            </div>
-          ))
-        ) : (
-          <div className='text-center'>No Products found</div>
-        )}
+      <div className='container'>
+        <div className='row ml-5'>
+          {related.length > 0 ? (
+            related.map((r) => (
+              <div key={r._id} className='col-md-3 ml-5 mb-3 '>
+                <ProductCard product={r} />
+              </div>
+            ))
+          ) : (
+            <div className='text-center'>No Products found</div>
+          )}
+        </div>
+        <br />
       </div>
-      {/* </div> */}
     </div>
   );
 };
