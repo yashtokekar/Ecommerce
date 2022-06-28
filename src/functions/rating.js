@@ -11,13 +11,25 @@ export const showAverage = (p) => {
     let totalReduced = total.reduce((p, n) => p + n, 0); // adds the current value(p) and next(n) in initial value(0) for every element of array
 
     let result = totalReduced / length;
+    // console.log('totalReduced', totalReduced, 'length', length);
 
     return (
-      <div className='text-center pt-1 pb-3'>
-        <span>
-          <StarRating rating={result} />
-        </span>
-      </div>
+      <>
+        <div className='text-center pt-1 pb-3'>
+          <span>
+            <StarRating
+              starDimension='20px'
+              starSpacing='2px'
+              starRatedColor='red'
+              starHoverColor='black'
+              editing={false}
+              rating={result}
+            />
+          </span>
+          <br />
+          <span>({p.ratings.length})</span>
+        </div>
+      </>
     );
   }
 };

@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { getProduct, productStar } from '../functions/product';
+import { getProduct, productStar, getRelated } from '../functions/product';
 import { SingleProduct } from '../components/cards/SingleProduct';
 import { useSelector } from 'react-redux';
+import { ProductCard } from '../components/cards/ProductCard';
 
 export const Product = ({ match }) => {
   const [product, setProduct] = useState({});
   const [star, setStar] = useState(0);
+  const [related, setRelated] = useState([]);
 
   const { user } = useSelector((state) => ({ ...state }));
 
@@ -24,8 +26,13 @@ export const Product = ({ match }) => {
     }
   });
 
-  const loadSingleProduct = () =>
-    getProduct(slug).then((res) => setProduct(res.data));
+  const loadSingleProduct = () => {
+    getProduct(slug).then((res) => {
+      setProduct(res.data);
+      //load related products
+      getRelated(res.data._id).then((res) => setRelated(res.data));
+    });
+  };
 
   const onStarClick = (newRating, name) => {
     setStar(newRating);
@@ -45,14 +52,28 @@ export const Product = ({ match }) => {
           star={star}
         />
       </div>
+      <br />
 
       <div className='row'>
-        <div className='col text-center pt-5 pb-5'>
+        <div className='col text-center pt-5 pb-3'>
           <hr />
           <h4>Related Products</h4>
           <hr />
         </div>
       </div>
+      {/* <div className='container-fluid'> */}
+      <div className='row'>
+        {related.length > 0 ? (
+          related.map((r) => (
+            <div key={r._id} className='col-md-3 mr-2 mb-3'>
+              <ProductCard product={r} />
+            </div>
+          ))
+        ) : (
+          <div className='text-center'>No Products found</div>
+        )}
+      </div>
+      {/* </div> */}
     </div>
   );
 };
