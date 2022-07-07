@@ -4,7 +4,12 @@ import { getCategories } from '../functions/category';
 import { useSelector, useDispatch } from 'react-redux';
 import { ProductCard } from '../components/cards/ProductCard';
 import { Checkbox, Menu, Slider } from 'antd';
-import { DollarCircleOutlined, DownSquareOutlined } from '@ant-design/icons';
+import {
+  DollarCircleOutlined,
+  DownSquareOutlined,
+  StarOutlined,
+} from '@ant-design/icons';
+import { Star } from '../components/forms/Star';
 
 const { SubMenu, Item } = Menu;
 
@@ -15,6 +20,7 @@ export const Shop = () => {
   const [ok, setOk] = useState(false);
   const [categories, setCategories] = useState([]);
   const [categoryIds, setCategoryIds] = useState([]);
+  const [star, setStar] = useState(0);
 
   let dispatch = useDispatch();
   let { search } = useSelector((state) => ({ ...state }));
@@ -28,19 +34,19 @@ export const Shop = () => {
   }, []);
 
   const fetchProducts = (arg) => {
-    setLoading(true);
+    // setLoading(true);
     getProductsByFilter(arg).then((res) => {
       setProducts(res.data);
-      setLoading(false);
+      // setLoading(false);
     });
   };
 
   // 1. load products by default on page load
   const loadAllProducts = () => {
-    setLoading(true);
+    // setLoading(true);
     getProductsByCount(12).then((p) => {
       setProducts(p.data);
-      setLoading(false);
+      // setLoading(false);
     });
   };
 
@@ -48,6 +54,7 @@ export const Shop = () => {
   useEffect(() => {
     setPrice([0, 0]);
     setCategoryIds([]);
+    setStar(0);
     const delayed = setTimeout(() => {
       fetchProducts({ query: text });
       if (!text) {
@@ -68,8 +75,9 @@ export const Shop = () => {
       type: 'SEARCH_QUERY',
       payload: { text: '' },
     });
-    setPrice(value);
     setCategoryIds([]);
+    setPrice(value);
+    setStar(0);
     setTimeout(() => {
       setOk(!ok);
     }, 500);
@@ -93,7 +101,12 @@ export const Shop = () => {
     ));
 
   const handleCheck = (e) => {
+    // dispatch({
+    //   type: 'SEARCH_QUERY',
+    //   payload: { text: '' },
+    // });
     setPrice([0, 0]);
+    setStar(0);
     let inTheState = [...categoryIds];
     let justChecked = e.target.value;
     let foundInTheState = inTheState.indexOf(justChecked); //returns index if found else -1
@@ -106,6 +119,29 @@ export const Shop = () => {
 
     setCategoryIds(inTheState);
     fetchProducts({ category: inTheState });
+  };
+
+  // 5. load products based on star ratings
+  const showStars = () => (
+    <div className='pr-4 pl-4 pb-2'>
+      <Star starClick={handleStarClick} numberOfStars={5} />
+      <Star starClick={handleStarClick} numberOfStars={4} />
+      <Star starClick={handleStarClick} numberOfStars={3} />
+      <Star starClick={handleStarClick} numberOfStars={2} />
+      <Star starClick={handleStarClick} numberOfStars={1} />
+    </div>
+  );
+
+  const handleStarClick = async (num) => {
+    // console.log(num);
+    // dispatch({
+    //   type: 'SEARCH_QUERY',
+    //   payload: { text: '' },
+    // });
+    setCategoryIds([]);
+    setPrice([0, 0]);
+    setStar(num);
+    fetchProducts({ stars: star });
   };
 
   return (
@@ -147,6 +183,18 @@ export const Shop = () => {
               }
             >
               <div style={{ marginTop: '10px' }}>{showCategories()}</div>
+            </SubMenu>
+
+            {/*stars*/}
+            <SubMenu
+              key='3'
+              title={
+                <span className='h6'>
+                  <StarOutlined /> Rating
+                </span>
+              }
+            >
+              <div style={{ marginTop: '10px' }}>{showStars()}</div>
             </SubMenu>
           </Menu>
         </div>
