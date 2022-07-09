@@ -1,12 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { getProductsByCount, getProductsByFilter } from '../functions/product';
 import { getCategories } from '../functions/category';
+import { getSubs } from '../functions/sub';
 import { useSelector, useDispatch } from 'react-redux';
 import { ProductCard } from '../components/cards/ProductCard';
-import { Checkbox, Menu, Slider } from 'antd';
+import { Checkbox, Menu, Radio, Slider } from 'antd';
 import {
+  BgColorsOutlined,
   DollarCircleOutlined,
   DownSquareOutlined,
+  ShopOutlined,
   StarOutlined,
 } from '@ant-design/icons';
 import { Star } from '../components/forms/Star';
@@ -21,6 +24,30 @@ export const Shop = () => {
   const [categories, setCategories] = useState([]);
   const [categoryIds, setCategoryIds] = useState([]);
   const [star, setStar] = useState(0);
+  const [subs, setSubs] = useState([]);
+  const [sub, setSub] = useState('');
+  const [brands, setBrands] = useState([
+    'Samsung',
+    'Apple',
+    'Xiaomi',
+    'Oppo',
+    'Vivo',
+    'Asus',
+    'Acer',
+    'HP',
+    'Dell',
+    'Sony',
+    'LG',
+  ]);
+  const [brand, setBrand] = useState('');
+  const [colors, setColors] = useState([
+    'Black',
+    'Brown',
+    'Silver',
+    'White',
+    'Blue',
+  ]);
+  const [color, setColor] = useState('');
 
   let dispatch = useDispatch();
   let { search } = useSelector((state) => ({ ...state }));
@@ -31,22 +58,25 @@ export const Shop = () => {
 
     //fetch categories
     getCategories().then((res) => setCategories(res.data));
+
+    //fetch sub categories
+    getSubs().then((res) => setSubs(res.data));
   }, []);
 
   const fetchProducts = (arg) => {
-    // setLoading(true);
+    setLoading(true);
     getProductsByFilter(arg).then((res) => {
       setProducts(res.data);
-      // setLoading(false);
+      setLoading(false);
     });
   };
 
   // 1. load products by default on page load
   const loadAllProducts = () => {
-    // setLoading(true);
+    setLoading(true);
     getProductsByCount(12).then((p) => {
       setProducts(p.data);
-      // setLoading(false);
+      setLoading(false);
     });
   };
 
@@ -55,6 +85,9 @@ export const Shop = () => {
     setPrice([0, 0]);
     setCategoryIds([]);
     setStar(0);
+    setSub('');
+    setBrand('');
+    setColor('');
     const delayed = setTimeout(() => {
       fetchProducts({ query: text });
       if (!text) {
@@ -78,6 +111,9 @@ export const Shop = () => {
     setCategoryIds([]);
     setPrice(value);
     setStar(0);
+    setSub('');
+    setBrand('');
+    setColor('');
     setTimeout(() => {
       setOk(!ok);
     }, 500);
@@ -107,6 +143,9 @@ export const Shop = () => {
     // });
     setPrice([0, 0]);
     setStar(0);
+    setSub('');
+    setBrand('');
+    setColor('');
     let inTheState = [...categoryIds];
     let justChecked = e.target.value;
     let foundInTheState = inTheState.indexOf(justChecked); //returns index if found else -1
@@ -132,7 +171,7 @@ export const Shop = () => {
     </div>
   );
 
-  const handleStarClick = async (num) => {
+  const handleStarClick = (num) => {
     // console.log(num);
     // dispatch({
     //   type: 'SEARCH_QUERY',
@@ -140,18 +179,104 @@ export const Shop = () => {
     // });
     setCategoryIds([]);
     setPrice([0, 0]);
+    setSub('');
+    setBrand('');
+    setColor('');
     setStar(num);
-    fetchProducts({ stars: star });
+    fetchProducts({ stars: num });
+  };
+
+  // 6. load products by sub category
+  const showSubs = () =>
+    subs.map((s) => (
+      <div
+        key={s._id}
+        onClick={() => handleSub(s)}
+        className='p-1 m-1 badge badge-primary'
+        style={{ cursor: 'pointer' }}
+      >
+        {s.name}
+      </div>
+    ));
+
+  const handleSub = (sub) => {
+    // dispatch({
+    //   type: 'SEARCH_QUERY',
+    //   payload: { text: '' },
+    // });
+    setCategoryIds([]);
+    setPrice([0, 0]);
+    setStar(0);
+    setBrand('');
+    setColor('');
+    setSub(sub);
+    fetchProducts({ sub });
+  };
+
+  // 7. load product by brand
+  const showBrands = () =>
+    brands.map((b) => (
+      <Radio
+        value={b}
+        name={b}
+        checked={b === brand}
+        onChange={handleBrand}
+        className='pb-1 pl-4 pr-4 mr-5'
+      >
+        {b}
+      </Radio>
+    ));
+
+  const handleBrand = (e) => {
+    // dispatch({
+    //   type: 'SEARCH_QUERY',
+    //   payload: { text: '' },
+    // });
+    setCategoryIds([]);
+    setPrice([0, 0]);
+    setStar(0);
+    setSub('');
+    setColor('');
+    setBrand(e.target.value);
+    fetchProducts({ brand: e.target.value });
+  };
+
+  // 8. load product by color
+  const showColors = () =>
+    colors.map((c) => (
+      <Radio
+        value={c}
+        name={c}
+        checked={c === color}
+        onChange={handleColor}
+        className='pb-1 pl-4 pr-4 mr-5'
+      >
+        {c}
+      </Radio>
+    ));
+
+  const handleColor = (e) => {
+    // dispatch({
+    //   type: 'SEARCH_QUERY',
+    //   payload: { text: '' },
+    // });
+    setCategoryIds([]);
+    setPrice([0, 0]);
+    setStar(0);
+    setSub('');
+    setBrand('');
+    setColor(e.target.value);
+    fetchProducts({ color: e.target.value });
   };
 
   return (
     <div className='container-fluid'>
       <div className='row'>
         <div className='col-md-3 pt-2'>
-          <h4>Search/filter</h4>
+          <h4 className='text-center'>Search/Filter</h4>
           <hr />
 
-          <Menu mode='inline' defaultOpenKeys={['1', '2']}>
+          <Menu mode='inline' defaultOpenKeys={[]}>
             {/*price*/}
             <SubMenu
               key='1'
@@ -195,6 +320,48 @@ export const Shop = () => {
               }
             >
               <div style={{ marginTop: '10px' }}>{showStars()}</div>
+            </SubMenu>
+
+            {/*brands*/}
+            <SubMenu
+              key='4'
+              title={
+                <span className='h6'>
+                  <ShopOutlined /> Brand
+                </span>
+              }
+            >
+              <div style={{ marginTop: '10px' }} className='pl-4 pr-4 mr-5'>
+                {showBrands()}
+              </div>
+            </SubMenu>
+
+            {/*sub category*/}
+            <SubMenu
+              key='5'
+              title={
+                <span className='h6'>
+                  <DownSquareOutlined /> Sub-categories
+                </span>
+              }
+            >
+              <div style={{ marginTop: '10px' }} className='pl-4 pr-4'>
+                {showSubs()}
+              </div>
+            </SubMenu>
+
+            {/*color*/}
+            <SubMenu
+              key='6'
+              title={
+                <span className='h6'>
+                  <BgColorsOutlined /> Color
+                </span>
+              }
+            >
+              <div style={{ marginTop: '10px' }} className='pl-4 pr-4 mr-5'>
+                {showColors()}
+              </div>
             </SubMenu>
           </Menu>
         </div>
