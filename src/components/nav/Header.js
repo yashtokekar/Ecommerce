@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Menu } from 'antd';
+import { Menu, Badge } from 'antd';
 import {
   AppstoreOutlined,
   SettingOutlined,
@@ -7,6 +7,7 @@ import {
   UserAddOutlined,
   LogoutOutlined,
   ShoppingOutlined,
+  ShoppingCartOutlined,
 } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
 import firebase from 'firebase/compat/app';
@@ -15,14 +16,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { Search } from '../forms/Search';
 
-const { SubMenu } = Menu;
+const { SubMenu, Item } = Menu;
 
 export const Header = () => {
   const [current, setCurrent] = useState('home');
   let dispatch = useDispatch();
   let history = useHistory();
 
-  let { user } = useSelector((state) => ({ ...state }));
+  let { user, cart } = useSelector((state) => ({ ...state }));
 
   const handleClick = (e) => {
     setCurrent(e.key);
@@ -46,32 +47,36 @@ export const Header = () => {
           mode='horizontal'
           className='navbar-fixed-top'
         >
-          <Menu.Item key='home' icon={<AppstoreOutlined />}>
+          <Item key='home' icon={<AppstoreOutlined />}>
             <Link to='/'>Home</Link>
-          </Menu.Item>
+          </Item>
 
-          <Menu.Item key='shop' icon={<ShoppingOutlined />}>
+          <Item key='shop' icon={<ShoppingOutlined />}>
             <Link to='/shop'>Shop</Link>
-          </Menu.Item>
+          </Item>
+
+          <Item key='cart' icon={<ShoppingCartOutlined />}>
+            <Link to='/cart'>
+              <Badge count={cart.length} offset={[9, 0]}>
+                Cart
+              </Badge>
+            </Link>
+          </Item>
 
           {!user && (
-            <Menu.Item
+            <Item
               key='register'
               icon={<UserAddOutlined />}
               className='float-right'
             >
               <Link to='/register'>Register</Link>
-            </Menu.Item>
+            </Item>
           )}
 
           {!user && (
-            <Menu.Item
-              key='login'
-              icon={<UserOutlined />}
-              className='float-right'
-            >
+            <Item key='login' icon={<UserOutlined />} className='float-right'>
               <Link to='/login'>Login</Link>
-            </Menu.Item>
+            </Item>
           )}
 
           {user && (
@@ -82,19 +87,19 @@ export const Header = () => {
               className='float-right'
             >
               {user && user.role === 'subscriber' && (
-                <Menu.Item>
+                <Item>
                   <Link to='/user/history'>Dashboard</Link>
-                </Menu.Item>
+                </Item>
               )}
 
               {user && user.role === 'admin' && (
-                <Menu.Item>
+                <Item>
                   <Link to='/admin/dashboard'>Dashboard</Link>
-                </Menu.Item>
+                </Item>
               )}
-              <Menu.Item icon={<LogoutOutlined />} onClick={logout}>
+              <Item icon={<LogoutOutlined />} onClick={logout}>
                 Logout
-              </Menu.Item>
+              </Item>
             </SubMenu>
           )}
 

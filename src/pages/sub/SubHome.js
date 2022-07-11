@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { getSub } from '../../functions/sub';
 import { LoadingOutlined } from '@ant-design/icons';
-import { Link } from 'react-router-dom';
 import { ProductCard } from '../../components/cards/ProductCard';
 
 export const SubHome = ({ match }) => {
