@@ -163,11 +163,11 @@ export const Shop = () => {
   // 5. load products based on star ratings
   const showStars = () => (
     <div className='pr-4 pl-4 pb-2'>
-      <Star starClick={handleStarClick} numberOfStars={5} />
-      <Star starClick={handleStarClick} numberOfStars={4} />
-      <Star starClick={handleStarClick} numberOfStars={3} />
-      <Star starClick={handleStarClick} numberOfStars={2} />
-      <Star starClick={handleStarClick} numberOfStars={1} />
+      <Star key={1} starClick={handleStarClick} numberOfStars={5} />
+      <Star key={2} starClick={handleStarClick} numberOfStars={4} />
+      <Star key={3} starClick={handleStarClick} numberOfStars={3} />
+      <Star key={4} starClick={handleStarClick} numberOfStars={2} />
+      <Star key={5} starClick={handleStarClick} numberOfStars={1} />
     </div>
   );
 
@@ -215,8 +215,9 @@ export const Shop = () => {
 
   // 7. load product by brand
   const showBrands = () =>
-    brands.map((b) => (
+    brands.map((b, i) => (
       <Radio
+        key={i}
         value={b}
         name={b}
         checked={b === brand}
@@ -243,8 +244,9 @@ export const Shop = () => {
 
   // 8. load product by color
   const showColors = () =>
-    colors.map((c) => (
+    colors.map((c, i) => (
       <Radio
+        key={i}
         value={c}
         name={c}
         checked={c === color}
@@ -279,7 +281,7 @@ export const Shop = () => {
           <Menu mode='inline' defaultOpenKeys={[]}>
             {/*price*/}
             <SubMenu
-              key='1'
+              key={1}
               title={
                 <span className='h6'>
                   <DollarCircleOutlined /> Price
@@ -300,7 +302,7 @@ export const Shop = () => {
 
             {/*category*/}
             <SubMenu
-              key='2'
+              key={2}
               title={
                 <span className='h6'>
                   <DownSquareOutlined /> Categories
@@ -312,7 +314,7 @@ export const Shop = () => {
 
             {/*stars*/}
             <SubMenu
-              key='3'
+              key={3}
               title={
                 <span className='h6'>
                   <StarOutlined /> Rating
@@ -324,7 +326,7 @@ export const Shop = () => {
 
             {/*brands*/}
             <SubMenu
-              key='4'
+              key={4}
               title={
                 <span className='h6'>
                   <ShopOutlined /> Brand
@@ -338,7 +340,7 @@ export const Shop = () => {
 
             {/*sub category*/}
             <SubMenu
-              key='5'
+              key={5}
               title={
                 <span className='h6'>
                   <DownSquareOutlined /> Sub-categories
@@ -352,7 +354,7 @@ export const Shop = () => {
 
             {/*color*/}
             <SubMenu
-              key='6'
+              key={6}
               title={
                 <span className='h6'>
                   <BgColorsOutlined /> Color

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Menu, Badge } from 'antd';
 import {
   AppstoreOutlined,
@@ -19,9 +19,23 @@ import { Search } from '../forms/Search';
 const { SubMenu, Item } = Menu;
 
 export const Header = () => {
-  const [current, setCurrent] = useState('home');
+  const [current, setCurrent] = useState('shop');
   let dispatch = useDispatch();
   let history = useHistory();
+
+  useEffect(() => {
+    getCurrent();
+  }, [current]);
+
+  const getCurrent = () => {
+    let curr = 'shop';
+    if (history.location.pathname === '/') {
+      curr = 'home';
+    } else if (history.location.pathname === '/cart') {
+      curr = 'cart';
+    }
+    setCurrent(curr);
+  };
 
   let { user, cart } = useSelector((state) => ({ ...state }));
 
