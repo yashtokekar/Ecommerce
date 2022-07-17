@@ -49,6 +49,16 @@ export const Header = () => {
       type: 'LOGOUT',
       payload: null,
     });
+    //empty cart
+    if (typeof window !== 'undefined') {
+      if (localStorage.getItem('cart')) {
+        localStorage.removeItem('cart');
+      }
+    }
+    dispatch({
+      type: 'ADD_TO_CART',
+      payload: [],
+    });
     history.push('/login');
   };
 
