@@ -32,9 +32,9 @@ export const NewArrivals = () => {
         {loading ? (
           <LoadingCard count={3} />
         ) : (
-          <div className='row ml-5'>
+          <div className='row'>
             {products.map((product) => (
-              <div key={product._id} className='col-md-3 ml-5 mr-2'>
+              <div key={product._id} className='col-md-4'>
                 <ProductCard product={product} />
               </div>
             ))}

@@ -8,7 +8,7 @@ export const ProductListItems = ({ product }) => {
     <ul className='list-group'>
       <li className='list-group-item'>
         Price{' '}
-        <span className='float-end label label-default label-pill pull-xs-right'>
+        <span className='float-right label label-default label-pill pull-xs-right'>
           &#8377; {price}
         </span>
       </li>
@@ -17,7 +17,7 @@ export const ProductListItems = ({ product }) => {
           Category{' '}
           <Link
             to={`/category/${category.slug}`}
-            className='float-end label label-default label-pill pull-xs-right'
+            className='float-right label label-default label-pill pull-xs-right'
           >
             {category.name}
           </Link>
@@ -30,7 +30,7 @@ export const ProductListItems = ({ product }) => {
           {subs.map((s) => (
             <Link
               to={`/sub/${s.slug}`}
-              className='float-end label label-default label-pill pull-xs-right'
+              className='float-right label label-default label-pill pull-xs-right'
             >
               {s.name}
             </Link>
@@ -39,31 +39,31 @@ export const ProductListItems = ({ product }) => {
       )}
       <li className='list-group-item'>
         Shipping
-        <span className='float-end label label-default label-pill pull-xs-right'>
+        <span className='float-right label label-default label-pill pull-xs-right'>
           {shipping}
         </span>
       </li>
       <li className='list-group-item'>
         Color{' '}
-        <span className='float-end label label-default label-pill pull-xs-right'>
+        <span className='float-right label label-default label-pill pull-xs-right'>
           {color}
         </span>
       </li>
       <li className='list-group-item'>
         Brand{' '}
-        <span className='float-end label label-default label-pill pull-xs-right'>
+        <span className='float-right label label-default label-pill pull-xs-right'>
           {brand}
         </span>
       </li>
       <li className='list-group-item'>
         Available{' '}
-        <span className='float-end label label-default label-pill pull-xs-right'>
+        <span className='float-right label label-default label-pill pull-xs-right'>
           {quantity}
         </span>
       </li>
       <li className='list-group-item'>
         Sold{' '}
-        <span className='float-end label label-default label-pill pull-xs-right'>
+        <span className='float-right label label-default label-pill pull-xs-right'>
           {sold}
         </span>
       </li>

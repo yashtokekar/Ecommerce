@@ -62,10 +62,10 @@ export const Product = ({ match }) => {
         </div>
       </div>
       <div className='container'>
-        <div className='row ml-5'>
+        <div className='row'>
           {related.length > 0 ? (
             related.map((r) => (
-              <div key={r._id} className='col-md-3 ml-5 mb-3 '>
+              <div key={r._id} className='col-md-4 '>
                 <ProductCard product={r} />
               </div>
             ))

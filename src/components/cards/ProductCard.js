@@ -53,7 +53,7 @@ export const ProductCard = ({ product }) => {
   return (
     <>
       {product && product.ratings && product.ratings.length > 0 ? (
-        <div className='pl-4'>{showAverage(product)}</div>
+        showAverage(product)
       ) : (
         <>
           <br />
@@ -61,7 +61,6 @@ export const ProductCard = ({ product }) => {
         </>
       )}
       <Card
-        style={{ width: 330 }}
         cover={
           <img
             src={images && images.length ? images[0].url : image}
